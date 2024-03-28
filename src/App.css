@@ -1,38 +1,87 @@
+/* App Layout */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header, content, footer */
+  grid-template-columns: 100%;
   min-height: 100vh;
+}
+
+main {
+  padding: 20px;
+}
+
+/* Header and Navigation */
+header {
+  background-color: #004d40; /* Darker shade for contrast */
+  padding: 10px 20px;
+  color: #fff;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+nav ul li {
+  margin: 0 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+nav ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Hover effect for links */
+nav ul li a:hover {
+  color: #b2dfdb; /* Lighter shade for hover effect */
+}
+
+/* Components Styling */
+h2 {
+  color: #00796b; /* Thematic color */
+  margin-bottom: 20px;
+}
+
+ul {
+  background-color: #e0f2f1; /* Light background to differentiate the section */
+  padding: 15px;
+  border-radius: 8px;
+  list-style-type: none; /* Removes bullet points */
+}
+
+li {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-bottom: 1px solid #004d40; /* Subtle separation */
+}
+
+li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+/* Forms and Inputs */
+form {
+  margin-top: 20px;
+}
+
+input[type="text"], input[type="number"], input[type="date"], button {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #004d40;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #004d40;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #00796b;
 }
