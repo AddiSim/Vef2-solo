@@ -14,7 +14,7 @@ main {
 header {
   background-color: #004d40; /* Darker shade for contrast */
   padding: 10px 20px;
-  color: #fff;
+  color: #00ffff;
 }
 
 nav ul {
@@ -31,8 +31,12 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  color: #ffffff;
+  color: #blue;
   font-weight: bold;
+}
+
+a, a:visited, a:active, a:hover {
+  color: inherit; /* Thematic color */
 }
 
 /* Hover effect for links */
@@ -42,7 +46,7 @@ nav ul li a:hover {
 
 /* Components Styling */
 h2 {
-  color: #00796b; /* Thematic color */
+  color: #00ffff; /* Thematic color */
   margin-bottom: 20px;
 }
 
@@ -84,4 +88,13 @@ button {
 
 button:hover {
   background-color: #00796b;
+}
+
+.pieChartContainer {
+  width: 400px;
+  height: 400px;
+  margin: auto; /* This centers the div horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -4,8 +4,8 @@ type Budget = {
     id: string;
     category: string;
     amount: number;
-    periodStart: string;
-    periodEnd: string;
+    period_start: string;
+    period_end: string;
 };
 
 const Budgets: React.FunctionComponent = () => {
@@ -19,26 +19,30 @@ const Budgets: React.FunctionComponent = () => {
 
     const fetchBudgets = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}budgets`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}budgets`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
             if (!response.ok) throw new Error('Failed to fetch budgets');
-
+    
             const result = await response.json();
-            if (!Array.isArray(result.rows)) {
-                console.error('Data is not an array:', result);
-                throw new Error('Expected an array of budgets.');
-            }
+            // Access the 'rows' property directly for the array of budgets
             setBudgets(result.rows);
         } catch (error) {
             console.error("Error fetching budgets:", error);
         }
-};
+    };
+    
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}budgets`, {
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -79,10 +83,12 @@ const Budgets: React.FunctionComponent = () => {
         <button type="submit">Add Budget</button>
       </form>
       <ul>
-        {budgets.map((budget) => (
-          <li key={budget.id}>
-            {budget.category}: ${budget.amount} from {budget.periodStart} to {budget.periodEnd}
-          </li>
+      {budgets.map((budget) => (
+        <li key={budget.id}>
+            {budget.category}: ${budget.amount} from{' '}
+            {new Date(budget.period_start).toISOString().split('T')[0]} to{' '}
+            {new Date(budget.period_end).toISOString().split('T')[0]}
+        </li>
         ))}
       </ul>
     </div>

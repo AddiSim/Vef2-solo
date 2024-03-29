@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 type Category = {
   id: string;
   name: string;
+  user_id: string;
 };
 
 const Categories: React.FC = () => {
@@ -14,38 +15,58 @@ const Categories: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}categories`);
-            if (!response.ok) throw new Error('Failed to fetch categories');
-    
-            const result = await response.json();
-            if (!Array.isArray(result.rows)) {
-                console.error('Data is not an array:', result);
-                throw new Error('Expected an array of categories.');
-            }
-            setCategories(result.rows);
+          const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          if (!response.ok) throw new Error('Failed to fetch categories');
+        
+          const data = await response.json();
+          console.log(data); // Inspect the structure of the fetched data
+            
+          // Ensure 'rows' is an array before setting it
+          if (data.rows && Array.isArray(data.rows)) {
+            setCategories(data.rows);
+          } else {
+            // Handle case where 'rows' is not an array
+            console.error("Fetched data is not as expected:", data);
+          }
         } catch (error) {
-            console.error("Error fetching categories:", error);
+          console.error("Error fetching categories:", error);
         }
-    };
+      };
+      
   
     fetchCategories();
   }, []);
   
 
   const fetchCategories = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}categories`);
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
     const data = await response.json();
     setCategories(data);
   };
 
   const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify({ name: newCategoryName }),
+      body: JSON.stringify({ 
+        name: newCategoryName,
+        user_id: userId,
+        }),
     });
     if (response.ok) {
       fetchCategories(); // Refresh the list of categories
@@ -56,11 +77,12 @@ const Categories: React.FC = () => {
   const handleEditCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingCategory) return;
-
+    const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_API_URL}categories/${editingCategory.id}`, {
       method: 'PUT', // or PATCH if your API supports it
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({ name: editCategoryName }),
     });
@@ -72,8 +94,12 @@ const Categories: React.FC = () => {
   };
 
   const handleDeleteCategory = async (id: string) => {
+    const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_API_URL}categories/${id}`, {
       method: 'DELETE',
+      headers: {
+            'Authorization': `Bearer ${token}`,
+        },
     });
     if (response.ok) {
       fetchCategories(); // Refresh the list of categories
