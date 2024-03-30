@@ -14,7 +14,9 @@ Notendaumsjón var útfærð, nema það þú þarft að búa þér til account 
     "email": "user1@example.com"
 }
 
-Annars er hægt að logga sig inn með þessum aðgangi, user1 password.
+Annars er hægt að logga sig inn með þessum aðgangi: 
+username: user1 
+password: password
 
 Bakendinn er tengdur við railway database með REST útfærslu en enginn error handling eða validation þar sem ég byrjaði á þessu í gær.
 
