@@ -14,8 +14,6 @@ const Transactions: React.FC = () => {
     const [newAmount, setNewAmount] = useState('');
     const [newDescription, setNewDescription] = useState('');
     const [newDate, setNewDate] = useState('');
-
-    // State for editing
     const [editingTransactionId, setEditingTransactionId] = useState<string | null>(null);
     const [editCategory, setEditCategory] = useState('');
     const [editAmount, setEditAmount] = useState('');
@@ -67,8 +65,7 @@ const Transactions: React.FC = () => {
 
             if (!response.ok) throw new Error('Failed to create transaction');
 
-            fetchTransactions(); // Re-fetch transactions to update the list
-            // Reset form fields
+            fetchTransactions();
             setNewCategory('');
             setNewAmount('');
             setNewDescription('');
@@ -98,8 +95,8 @@ const Transactions: React.FC = () => {
 
             if (!response.ok) throw new Error('Failed to update transaction');
 
-            fetchTransactions(); // Re-fetch transactions to update the list
-            setEditingTransactionId(null); // Reset editing state
+            fetchTransactions(); 
+            setEditingTransactionId(null); 
         } catch (error) {
             console.error("Error updating transaction:", error);
         }
@@ -117,7 +114,7 @@ const Transactions: React.FC = () => {
 
             if (!response.ok) throw new Error('Failed to delete transaction');
 
-            fetchTransactions(); // Re-fetch transactions to update the list
+            fetchTransactions(); 
         } catch (error) {
             console.error("Error deleting transaction:", error);
         }
@@ -126,7 +123,6 @@ const Transactions: React.FC = () => {
     return (
         <div>
             <h2>Transactions</h2>
-            {/* Transaction form */}
             <form onSubmit={handleAddTransaction}>
                 <input type="text" value={newCategory} onChange={e => setNewCategory(e.target.value)} placeholder="Category" required />
                 <input type="number" value={newAmount} onChange={e => setNewAmount(e.target.value)} placeholder="Amount" required />
@@ -138,7 +134,6 @@ const Transactions: React.FC = () => {
                 {transactions.map(transaction => (
                     <li key={transaction.id}>
                         {editingTransactionId === transaction.id ? (
-                            // Edit form
                             <>
                                 <input type="text" value={editCategory} onChange={e => setEditCategory(e.target.value)} required />
                                 <input type="number" value={editAmount} onChange={e => setEditAmount(e.target.value)} required />
@@ -148,7 +143,6 @@ const Transactions: React.FC = () => {
                                 <button onClick={() => setEditingTransactionId(null)}>Cancel</button>
                             </>
                         ) : (
-                            // Display mode
                             <>
                                 {transaction.date}: {transaction.category} - ${transaction.amount} ({transaction.description})
                                 <button onClick={() => {

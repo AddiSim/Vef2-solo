@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 type Category = {
   id: string;
   name: string;
-  user_id: string;
+  user_id: number;
 };
 
 const Categories: React.FC = () => {
@@ -23,13 +23,11 @@ const Categories: React.FC = () => {
           if (!response.ok) throw new Error('Failed to fetch categories');
         
           const data = await response.json();
-          console.log(data); // Inspect the structure of the fetched data
+          console.log(data); 
             
-          // Ensure 'rows' is an array before setting it
           if (data.rows && Array.isArray(data.rows)) {
             setCategories(data.rows);
           } else {
-            // Handle case where 'rows' is not an array
             console.error("Fetched data is not as expected:", data);
           }
         } catch (error) {
@@ -50,13 +48,18 @@ const Categories: React.FC = () => {
         },
     });
     const data = await response.json();
-    setCategories(data);
+    if (data.rows && Array.isArray(data.rows)) {
+      setCategories(data.rows);
+    } else {
+      console.error("Fetched data is not as expected:", data);
+      setCategories([]);
+    }
   };
 
   const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('id');
     const response = await fetch(`${process.env.REACT_APP_API_URL}categories`, {
       method: 'POST',
       headers: {
@@ -69,8 +72,8 @@ const Categories: React.FC = () => {
         }),
     });
     if (response.ok) {
-      fetchCategories(); // Refresh the list of categories
-      setNewCategoryName(""); // Reset the input field
+      fetchCategories(); 
+      setNewCategoryName(""); 
     }
   };
 
@@ -79,7 +82,7 @@ const Categories: React.FC = () => {
     if (!editingCategory) return;
     const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_API_URL}categories/${editingCategory.id}`, {
-      method: 'PUT', // or PATCH if your API supports it
+      method: 'PATCH', 
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
@@ -87,9 +90,9 @@ const Categories: React.FC = () => {
       body: JSON.stringify({ name: editCategoryName }),
     });
     if (response.ok) {
-      fetchCategories(); // Refresh the list
-      setEditingCategory(null); // Exit editing mode
-      setEditCategoryName(""); // Reset the input field
+      fetchCategories(); 
+      setEditingCategory(null); 
+      setEditCategoryName(""); 
     }
   };
 

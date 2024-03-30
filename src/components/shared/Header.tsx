@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../Auth/AuthContext'; // Adjust the import path as needed
+import { useAuth } from '../../Auth/AuthContext'; 
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
@@ -11,7 +11,7 @@ const Header: React.FC = () => {
     navigate('/login'); 
   };
   return (
-    <header style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: '#f5f5f5'}}>
+    <header style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem'}}>
       <h1>Spara pening ofc</h1>
       <nav>
         <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>

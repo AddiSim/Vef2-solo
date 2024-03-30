@@ -2,7 +2,6 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 
-// Register the necessary components for the pie chart
 Chart.register(ArcElement, Tooltip, Legend);
 
 const BudgetPieChart = ({ budgetAmount, spentAmount }: { budgetAmount: number, spentAmount: number }) => {
@@ -18,9 +17,8 @@ const BudgetPieChart = ({ budgetAmount, spentAmount }: { budgetAmount: number, s
     };
 
     const options = {
-        maintainAspectRatio: true, // Set to false if you want to ignore aspect ratio
-        aspectRatio: 1, // Makes the chart a square if maintainAspectRatio is true, adjust as needed
-        // Add other options here
+        maintainAspectRatio: true, 
+        aspectRatio: 1, 
     };
 
     return <Pie data={data} options={options} />;

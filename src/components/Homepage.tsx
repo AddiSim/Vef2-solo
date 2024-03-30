@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react';
 import BudgetPieChart from './BudgetPieChart';
 
 interface Budget {
-    id: number; // Assuming SERIAL generates an integer id
+    id: number; 
     user_id: number;
     category_id: number;
     amount: number;
-    period_start: Date | string; // Use Date for JavaScript objects, string for JSON received
+    period_start: Date | string;
     period_end: Date | string;
 }
 
 interface Transaction {
-    id: number; // Assuming SERIAL generates an integer id
+    id: number; 
     user_id: number;
     category_id: number;
     amount: number;
     description: string;
-    transaction_date: Date | string; // Use Date for JavaScript objects, string for JSON received
+    transaction_date: Date | string; 
 }
 
 const Homepage = () => {
@@ -35,9 +35,8 @@ const Homepage = () => {
                 if (!response.ok) throw new Error('Failed to fetch budgets');
         
                 const result = await response.json();
-                console.log(result); // Log the result to inspect its structure
+                console.log(result); 
                 
-                // Check if 'rows' exists and is an array before setting it
                 if (result.rows && Array.isArray(result.rows)) {
                     setBudgets(result.rows);
                 } else {
@@ -54,7 +53,6 @@ const Homepage = () => {
     
 
     useEffect(() => {
-        // Calculate the spent amount for the selected budget whenever it changes
         const calculateSpentAmount = async () => {
             if (!selectedBudgetId) return;
             try {
@@ -65,8 +63,8 @@ const Homepage = () => {
                 });
                 if (!response.ok) throw new Error('Failed to fetch transactions');
                 const result = await response.json();
-                const transactions = result.rows; // Access the 'rows' property directly for the array of transactions
-                console.log(transactions); // This should now be the actual array of transactions
+                const transactions = result.rows; 
+                console.log(transactions); 
                 const selectedBudget = budgets.find(budget => budget.id === selectedBudgetId);
                 
                 const totalSpent = transactions

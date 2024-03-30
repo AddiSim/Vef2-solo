@@ -1,7 +1,6 @@
-/* App Layout */
 .App {
   display: grid;
-  grid-template-rows: auto 1fr auto; /* Header, content, footer */
+  grid-template-rows: auto 1fr auto; 
   grid-template-columns: 100%;
   min-height: 100vh;
 }
@@ -10,14 +9,13 @@ main {
   padding: 20px;
 }
 
-/* Header and Navigation */
 header {
-  background-color: #004d40; /* Darker shade for contrast */
+  background-color: #fff;
   padding: 10px 20px;
-  color: #00ffff;
 }
 
 nav ul {
+  background-color: #fff;
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -36,45 +34,41 @@ nav ul li a {
 }
 
 a, a:visited, a:active, a:hover {
-  color: inherit; /* Thematic color */
+  color: inherit;
 }
 
-/* Hover effect for links */
 nav ul li a:hover {
-  color: #b2dfdb; /* Lighter shade for hover effect */
+  color: #b2dfdb; 
 }
 
-/* Components Styling */
 h2 {
-  color: #00ffff; /* Thematic color */
+  margin-left: 20px;
   margin-bottom: 20px;
 }
 
 ul {
-  background-color: #e0f2f1; /* Light background to differentiate the section */
+  background-color: #a2fece; 
   padding: 15px;
   border-radius: 8px;
-  list-style-type: none; /* Removes bullet points */
+  list-style-type: none; 
 }
 
 li {
   margin-bottom: 10px;
   padding: 5px;
-  border-bottom: 1px solid #004d40; /* Subtle separation */
 }
 
-li:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
+div {
+  background-color:#21e9c5;
 }
 
-/* Forms and Inputs */
 form {
   margin-top: 20px;
 }
 
 input[type="text"], input[type="number"], input[type="date"], button {
   padding: 8px;
+  margin-left: 20px;
   margin-right: 10px;
   border: 1px solid #004d40;
   border-radius: 4px;
@@ -84,6 +78,7 @@ button {
   background-color: #004d40;
   color: #ffffff;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 button:hover {
@@ -93,7 +88,7 @@ button:hover {
 .pieChartContainer {
   width: 400px;
   height: 400px;
-  margin: auto; /* This centers the div horizontally */
+  margin: auto; 
   display: flex;
   justify-content: center;
   align-items: center;

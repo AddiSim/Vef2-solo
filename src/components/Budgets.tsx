@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 type Budget = {
     id: string;
-    category: string;
+    user_id: number;
+    category_id: number;
     amount: number;
     period_start: string;
     period_end: string;
@@ -10,12 +11,14 @@ type Budget = {
 
 const Budgets: React.FunctionComponent = () => {
     const [budgets, setBudgets] = useState<Budget[]>([]);
-    const [category, setCategory] = useState('');
+    const [category_id, setCategory_id] = useState('');
     const [amount, setAmount] = useState('');
+    const [period_start, setperiod_start] = useState('');
+    const [period_end, setperiod_end] = useState('');
 
     useEffect(() => {
         fetchBudgets();
-    }, []); // The empty dependency array tells React to run this effect once, after initial render
+    }, []); 
 
     const fetchBudgets = async () => {
         try {
@@ -27,7 +30,6 @@ const Budgets: React.FunctionComponent = () => {
             if (!response.ok) throw new Error('Failed to fetch budgets');
     
             const result = await response.json();
-            // Access the 'rows' property directly for the array of budgets
             setBudgets(result.rows);
         } catch (error) {
             console.error("Error fetching budgets:", error);
@@ -38,6 +40,7 @@ const Budgets: React.FunctionComponent = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
+        const userid = localStorage.getItem('id');
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}budgets`, {
                 method: 'POST',
@@ -46,8 +49,11 @@ const Budgets: React.FunctionComponent = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    category,
+                    user_id: userid,
+                    category_id: category_id,
                     amount: Number(amount),
+                    period_start: period_start,
+                    period_end: period_end
                 }),
             });
         
@@ -55,7 +61,7 @@ const Budgets: React.FunctionComponent = () => {
             
             const newBudget = await response.json();
             setBudgets(prevBudgets => [...prevBudgets, newBudget]);
-            setCategory('');
+            setCategory_id('');
             setAmount('');
         } catch (error) {
             console.error("Error creating a new budget:", error);
@@ -68,8 +74,8 @@ const Budgets: React.FunctionComponent = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={category_id}
+          onChange={(e) => setCategory_id(e.target.value)}
           placeholder="Category"
           required
         />
@@ -80,12 +86,26 @@ const Budgets: React.FunctionComponent = () => {
           placeholder="Amount"
           required
         />
+        <input
+          type="date"
+          value={period_start}
+          onChange={(e) => setperiod_start(e.target.value)}
+          placeholder="period start"
+          required
+        />
+        <input
+          type="date"
+          value={period_end}
+          onChange={(e) => setperiod_end(e.target.value)}
+          placeholder="period end"
+          required
+        />
         <button type="submit">Add Budget</button>
       </form>
       <ul>
       {budgets.map((budget) => (
         <li key={budget.id}>
-            {budget.category}: ${budget.amount} from{' '}
+            {budget.category_id}: ${budget.amount} from{' '}
             {new Date(budget.period_start).toISOString().split('T')[0]} to{' '}
             {new Date(budget.period_end).toISOString().split('T')[0]}
         </li>

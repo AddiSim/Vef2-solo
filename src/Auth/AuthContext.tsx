@@ -24,6 +24,7 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem('token'));
+  
   const [user, setUser] = useState<string | null>(localStorage.getItem('user'));
     console.log(user, authToken)
   const logout = useCallback(() => {
@@ -31,7 +32,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    // Additional cleanup actions if necessary
   }, []);
 
   return (

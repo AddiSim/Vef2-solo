@@ -1,7 +1,6 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProtectedRoute from './Auth/ProtectedRoute'; // Adjust the import path as necessary
+import ProtectedRoute from './Auth/ProtectedRoute'; 
 import Login from './components/Login';
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
